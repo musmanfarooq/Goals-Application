@@ -1,6 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 export default function App() {
   const [goal, setGoal] = useState("");
@@ -11,8 +19,11 @@ export default function App() {
   }
 
   function addGoalHandler(enteredText) {
-    setCourseGoals((currentgoals) => [...currentgoals, goal]);
-    setGoal("")
+    setCourseGoals((currentgoals) => [
+      ...currentgoals,
+      { text: goal, id: Math.random().toString() },
+    ]);
+    // setGoal("");
   }
 
   return (
@@ -28,9 +39,20 @@ export default function App() {
       </View>
       <View>
         <Text style={styles.heading}>List of All Goals</Text>
-        {courseGoals.map((goal) => (
-          <Text style={[styles.goalstext, styles.shadow]} key={goal}>{goal}</Text>
-        ))}
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={courseGoals}
+          keyExtractor={(item) => {
+            return item.id;
+          }}
+          renderItem={(itemData) => {
+            return (
+              <View style={[styles.goals, styles.shadow]}>
+                <Text>{itemData.item.text}</Text>
+              </View>
+            );
+          }}
+        />
       </View>
     </View>
   );
@@ -40,6 +62,7 @@ const styles = StyleSheet.create({
   appContainer: {
     paddingTop: 50,
     paddingHorizontal: 16,
+    paddingBottom: 100,
   },
   heading: {
     fontSize: 24,
@@ -59,7 +82,7 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   shadow: {
-    shadowOffset: { width: -2, height: 4 },
+    shadowOffset: { width: 1, height: 3 },
     shadowColor: "#171717",
     shadowOpacity: 0.1,
     elevation: 2,
@@ -67,11 +90,11 @@ const styles = StyleSheet.create({
   marginbottom: {
     marginBottom: 18,
   },
-  goalstext: {
+  goals: {
     fontSize: 16,
     padding: 12,
     backgroundColor: "whitesmoke",
     borderRadius: 8,
     marginVertical: 5,
-  }
+  },
 });
