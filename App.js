@@ -1,14 +1,13 @@
-import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
   Button,
   FlatList,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const [goal, setGoal] = useState("");
@@ -18,12 +17,12 @@ export default function App() {
     setGoal(enteredText);
   }
 
-  function addGoalHandler(enteredText) {
+  function addGoalHandler() {
     setCourseGoals((currentgoals) => [
       ...currentgoals,
       { text: goal, id: Math.random().toString() },
     ]);
-    // setGoal("");
+    setGoal("");
   }
 
   return (
@@ -46,11 +45,7 @@ export default function App() {
             return item.id;
           }}
           renderItem={(itemData) => {
-            return (
-              <View style={[styles.goals, styles.shadow]}>
-                <Text>{itemData.item.text}</Text>
-              </View>
-            );
+            return <GoalItem title="usman" />;
           }}
         />
       </View>
