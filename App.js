@@ -7,7 +7,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const [goal, setGoal] = useState("");
@@ -45,7 +44,11 @@ export default function App() {
             return item.id;
           }}
           renderItem={(itemData) => {
-            return <GoalItem title="usman" />;
+            return (
+              <View style={[styles.goals, styles.shadow]}>
+                <Text>{itemData.item.text}</Text>
+              </View>
+            );
           }}
         />
       </View>
