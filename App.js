@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Button,
   FlatList,
@@ -6,10 +6,11 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
+} from 'react-native';
+import GoalItem from './components/GoalItem';
 
 export default function App() {
-  const [goal, setGoal] = useState("");
+  const [goal, setGoal] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
 
   function enterGoalHandler(enteredText) {
@@ -21,7 +22,7 @@ export default function App() {
       ...currentgoals,
       { text: goal, id: Math.random().toString() },
     ]);
-    setGoal("");
+    setGoal('');
   }
 
   return (
@@ -29,6 +30,7 @@ export default function App() {
       <View style={[styles.displayflex, styles.marginbottom]}>
         <TextInput
           placeholder="Enter your Goal"
+           placeholderTextColor="rgba(51, 51, 51, 0.3)" 
           style={[styles.input, styles.shadow]}
           onChangeText={enterGoalHandler}
           value={goal}
@@ -44,11 +46,7 @@ export default function App() {
             return item.id;
           }}
           renderItem={(itemData) => {
-            return (
-              <View style={[styles.goals, styles.shadow]}>
-                <Text>{itemData.item.text}</Text>
-              </View>
-            );
+            return <GoalItem item={itemData.item.text} />;
           }}
         />
       </View>
@@ -64,35 +62,29 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: '600',
     marginBottom: 18,
   },
   displayflex: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   input: {
     padding: 15,
-    backgroundColor: "whitesmoke",
+    backgroundColor: 'whitesmoke',
     borderRadius: 8,
     marginRight: 10,
-    width: "70%",
+    width: '70%',
+    color: 'black',
   },
   shadow: {
     shadowOffset: { width: 1, height: 3 },
-    shadowColor: "#171717",
+    shadowColor: '#171717',
     shadowOpacity: 0.1,
     elevation: 2,
   },
   marginbottom: {
     marginBottom: 18,
-  },
-  goals: {
-    fontSize: 16,
-    padding: 12,
-    backgroundColor: "whitesmoke",
-    borderRadius: 8,
-    marginVertical: 5,
   },
 });
