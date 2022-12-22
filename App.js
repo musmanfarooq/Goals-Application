@@ -1,13 +1,7 @@
 import { useState } from 'react';
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
   const [goal, setGoal] = useState('');
@@ -18,24 +12,32 @@ export default function App() {
   }
 
   function addGoalHandler() {
-    setCourseGoals((currentgoals) => [
-      ...currentgoals,
-      { text: goal, id: Math.random().toString() },
-    ]);
-    setGoal('');
+    if (goal !== '') {
+      setCourseGoals((currentgoals) => [
+        ...currentgoals,
+        { text: goal, id: Math.random().toString() },
+      ]);
+      setGoal('');
+    }
+  }
+
+  function deleteGoalHandler(id) {
+    console.log(id);
+    // setCourseGoals((currentgoals) => {
+    //   return currentgoals.filter((goal) => {
+    //     goal.id !== id;
+    //   });
+    // });
   }
 
   return (
     <View style={styles.appContainer}>
-      <View style={[styles.displayflex, styles.marginbottom]}>
-        <TextInput
-          placeholder="Enter your Goal"
-           placeholderTextColor="rgba(51, 51, 51, 0.3)" 
-          style={[styles.input, styles.shadow]}
-          onChangeText={enterGoalHandler}
-          value={goal}
+      <View>
+        <GoalInput
+          addGoal={addGoalHandler}
+          enterGoal={enterGoalHandler}
+          goals={goal}
         />
-        <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View>
         <Text style={styles.heading}>List of All Goals</Text>
@@ -46,7 +48,13 @@ export default function App() {
             return item.id;
           }}
           renderItem={(itemData) => {
-            return <GoalItem item={itemData.item.text} />;
+            return (
+              <GoalItem
+                item={itemData.item.text}
+                id={itemData.item.id}
+                deleteGoals={deleteGoalHandler}
+              />
+            );
           }}
         />
       </View>
@@ -63,28 +71,6 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: '600',
-    marginBottom: 18,
-  },
-  displayflex: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  input: {
-    padding: 15,
-    backgroundColor: 'whitesmoke',
-    borderRadius: 8,
-    marginRight: 10,
-    width: '70%',
-    color: 'black',
-  },
-  shadow: {
-    shadowOffset: { width: 1, height: 3 },
-    shadowColor: '#171717',
-    shadowOpacity: 0.1,
-    elevation: 2,
-  },
-  marginbottom: {
     marginBottom: 18,
   },
 });
